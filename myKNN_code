@@ -1,0 +1,34 @@
+import numpy as np
+from collections import Counter
+class myknn:
+  def __init__(self,k=5):
+    self.n_neighbors = k
+    self.x_train = None
+    self.y_train = None
+  
+  def fit(self,x_train,y_train):
+    self.x_train = x_train
+    self.y_train = y_train
+
+  def predict(self,x_test):
+    for i in x_test:
+      #calculate the distance with the training point
+      dist = []
+      for j in self.x_train:
+        dist.append(self.calculate_distance(i,j))
+      n_neighbors = sorted(list(enumerate(dist)),key=lambda x:x[1])[0:self.n_neighbors]
+      label = self.majority_count(n_neighbors)
+      y_pred.append(label)
+    return np.array(y_pred)
+
+  def calculate_distace(self,x1,x2):
+    return np.linalg.norm(x1-x2)
+    
+  def majority_count(self,n_neighbors):
+    votes = []
+    for i in n_neighbors:
+      votes.append(self.y_train[i[0]])
+    votes = Counter(votes).most_common()[0][0]
+    return votes
+      
+    
